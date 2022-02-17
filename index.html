@@ -8,28 +8,47 @@
     <title>Document</title>
     <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
 </head>
+<style>
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
+</style>
 <body>
-<a href="#" onClick="MIDIjs.play('masterpiece.mid');">Play</a>
 <script>
     const WIDTH = 200;
     const HEIGHT = 200;
     let CURRENT_Z_INDEX = 0;
 
-    const spawnBoy = (x, y) => {
+    const numberFromCssString = (string) => +string.replace('px', '');
+    const numberToCssString = (n) => n + "px";
+
+    const spawnBoy = async (x, y) => {
         const img = new Image(WIDTH, HEIGHT);
         img.src = "calzone-face.png";
         img.style.position = "absolute";
-        img.style.left = x - (WIDTH / 2) + "px";
-        img.style.top = y - (HEIGHT / 2) + "px";
+        img.style.left = numberToCssString(x - (WIDTH / 2));
+        img.style.top = numberToCssString(y - (HEIGHT / 2));
         img.style.zIndex = CURRENT_Z_INDEX;
         document.body.appendChild(img);
-
+        console.log(numberFromCssString(img.style.top));
+        console.log(window.innerHeight);
+        while(numberFromCssString(img.style.top) < window.innerHeight) {
+            img.style.top = numberToCssString(numberFromCssString(img.style.top) + 1);
+            await new Promise(r => setTimeout(r, 20));
+        }
         CURRENT_Z_INDEX++;
     }
     document.addEventListener("click", (e) => {
         const {pageX, pageY} = e;
         spawnBoy(pageX, pageY);
     })
+
+    setTimeout(() => {
+        MIDIjs.play('masterpiece.mid');
+    }, 2000)
 </script>
 </body>
 </html>
