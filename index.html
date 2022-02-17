@@ -21,6 +21,7 @@
     const WIDTH = 200;
     const HEIGHT = 200;
     let CURRENT_Z_INDEX = 0;
+    let songPlaying = false;
 
     const numberFromCssString = (string) => +string.replace('px', '');
     const numberToCssString = (n) => n + "px";
@@ -37,17 +38,22 @@
         console.log(window.innerHeight);
         while(numberFromCssString(img.style.top) < window.innerHeight) {
             img.style.top = numberToCssString(numberFromCssString(img.style.top) + 1);
-            await new Promise(r => setTimeout(r, 20));
+            await new Promise(r => setTimeout(r, 15));
         }
         CURRENT_Z_INDEX++;
     }
     document.addEventListener("click", (e) => {
+        if (!songPlaying) {
+            MIDIjs.play('masterpiece.mid');
+            songPlaying = true;
+        }
+
         const {pageX, pageY} = e;
         spawnBoy(pageX, pageY);
     })
 
     setTimeout(() => {
-        MIDIjs.play('masterpiece.mid');
+
     }, 2000)
 </script>
 </body>
