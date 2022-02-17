@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
+</head>
+<body>
+<a href="#" onClick="MIDIjs.play('masterpiece.mid');">Play</a>
+<script>
+    const WIDTH = 200;
+    const HEIGHT = 200;
+    let CURRENT_Z_INDEX = 0;
+
+    const spawnBoy = (x, y) => {
+        const img = new Image(WIDTH, HEIGHT);
+        img.src = "calzone-face.png";
+        img.style.position = "absolute";
+        img.style.left = x - (WIDTH / 2) + "px";
+        img.style.top = y - (HEIGHT / 2) + "px";
+        img.style.zIndex = CURRENT_Z_INDEX;
+        document.body.appendChild(img);
+
+        CURRENT_Z_INDEX++;
+    }
+    document.addEventListener("click", (e) => {
+        const {pageX, pageY} = e;
+        spawnBoy(pageX, pageY);
+    })
+</script>
+</body>
+</html>
